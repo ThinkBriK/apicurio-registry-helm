@@ -1,3 +1,10 @@
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: false
+  name:
+
 registry:
   enabled: true
 
@@ -33,11 +40,18 @@ registry:
     # requests:
     #   cpu: 200m
     #   memory: 600Mi
+  nodeSelector: {}
+  affinity: {}
+  tolerations: []
+
+  service:
+    type: ClusterIP
 
   ingress:
     enabled: false
     host: "apicurio.local"
     path: "/"
+    pathType: "ImplementationSpecific"
     tls: false
     annotations: {}
     labels: {}
@@ -56,4 +70,6 @@ sync:
     # requests:
     #   cpu: 200m
     #   memory: 600Mi
-
+  nodeSelector: {}
+  affinity: {}
+  tolerations: []
