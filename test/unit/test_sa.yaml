@@ -18,6 +18,7 @@ tests:
     set:
       registry.enabled: false
       sync.enabled: false
+      serviceAccount.create: false
     asserts:
       - hasDocuments:
           count: 0
