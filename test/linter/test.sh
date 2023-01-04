@@ -55,7 +55,7 @@ if [ $? -eq 0 ]; then
   exit 1
 fi
 
-helm lint . --strict --set registry.ingress.enabled=true --set registry.ingress.tls=true
+helm lint . --strict --set registry.ingress.enabled=true --set registry.ingress.tls.enabled=true
 if [ $? -ne 0 ]; then
   exit 1
 fi

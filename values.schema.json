@@ -2,22 +2,36 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://github.com/eshepelyuk/apicurio-registry-helm-chart",
   "title": "Apicurio Registry Helm values",
-
   "definitions": {
     "isEnabled": {
-      "type": "boolean", "title": "should be installed" , "default": true
+      "type": "boolean",
+      "title": "should be installed",
+      "default": true
     },
     "dockerImage": {
-      "type": "object", "title": "docker image settings",
-      "required": ["registry", "repository", "tag"],
+      "type": "object",
+      "title": "docker image settings",
+      "required": [
+        "registry",
+        "repository",
+        "tag"
+      ],
       "properties": {
-        "registry": {"type": "string", "default": "quay.io"},
-        "repository": {"type": "string"},
-        "tag": {"type": "string"}
+        "registry": {
+          "type": "string",
+          "default": "quay.io"
+        },
+        "repository": {
+          "type": "string"
+        },
+        "tag": {
+          "type": "string"
+        }
       }
     },
     "podResources": {
-      "type": "object", "title": "pod resources",
+      "type": "object",
+      "title": "pod resources",
       "additionalProperties": false,
       "properties": {
         "limits": {
@@ -36,17 +50,30 @@
         "title": "Type of persistence for apicurio registry"
       },
       "kafka": {
-        "type": "object", "additionalProperties": false,
-        "required": ["bootstrapServers"],
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "bootstrapServers"
+        ],
         "properties": {
-          "bootstrapServers": {"type": "string"}
+          "bootstrapServers": {
+            "type": "string"
+          }
         }
       },
       "sql": {
-        "type": "object", "additionalProperties": false,
-        "required": ["url", "existingSecret", "existingSecretUsernameKey","existingSecretPasswordKey"],
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "url",
+          "existingSecret",
+          "existingSecretUsernameKey",
+          "existingSecretPasswordKey"
+        ],
         "properties": {
-          "url": {"type": "string"},
+          "url": {
+            "type": "string"
+          },
           "existingSecret": {
             "type": "string",
             "default": "apicurio-registry-sync-db",
@@ -66,72 +93,183 @@
       }
     },
     "keyValue": {
-      "type": "object", "additionalProperties": false,
-      "required": ["name", "value"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "value"
+      ],
       "properties": {
-        "name": { "type": "string"},
-        "value": {"type": "string"}
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
       }
     },
     "service": {
-      "type": "object", "title": "service resource for registry",
-      "require": ["type"],
+      "type": "object",
+      "title": "service resource for registry",
+      "require": [
+        "type"
+      ],
       "properties": {
-        "type": {"type": "string", "default": "ClusterIP", "title": "service type"}
+        "type": {
+          "type": "string",
+          "default": "ClusterIP",
+          "title": "service type"
+        }
       }
     },
     "ingress": {
-      "type": "object", "title": "ingress resource for registry",
-      "required": ["enabled", "host", "path"],
+      "type": "object",
+      "title": "ingress resource for registry",
+      "required": [
+        "enabled",
+        "host",
+        "path"
+      ],
       "properties": {
-        "enabled": {"type": "boolean", "default": false, "title": "enable ingress resource"},
-        "host": {"type": "string", "default": "apicurio.local", "title": "hostname"},
-        "path": {"type": "string", "default": "/", "title": "ingress path"},
-        "pathType": {"type": "string", "default": "ImplementationSpecific", "title": "ingress path type"},
-        "tls": {"type": "boolean", "default": false, "title": "enable TLS for ingress host",
-            "description": "if TLS enabled the certificate is retrieved from secret with the same name as ingress host"},
-        "annotations": {"type": "object", "default": {}, "title": "ingress resource annotations"},
-        "labels": {"type": "object", "default": {}, "title": "ingress resource labels"}
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "title": "enable ingress resource"
+        },
+        "host": {
+          "type": "string",
+          "default": "apicurio.local",
+          "title": "hostname"
+        },
+        "path": {
+          "type": "string",
+          "default": "/",
+          "title": "ingress path"
+        },
+        "pathType": {
+          "type": "string",
+          "default": "ImplementationSpecific",
+          "title": "ingress path type"
+        },
+        "tls": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "enabled"
+          ],
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": false,
+              "title": "Enable TLS for the ingress"
+            },
+            "secretName": {
+              "type": "string",
+              "title": "Name of the TLS secret to be used (defaults to ingress address)"
+            }
+          }
+        },
+        "annotations": {
+          "type": "object",
+          "default": {},
+          "title": "ingress resource annotations"
+        },
+        "labels": {
+          "type": "object",
+          "default": {},
+          "title": "ingress resource labels"
+        }
       }
     }
   },
-
   "type": "object",
-
   "properties": {
     "registry": {
-      "type": "object", "title": "registry settings",
-      "required": ["enabled", "persistence", "image", "resources", "ingress"],
+      "type": "object",
+      "title": "registry settings",
+      "required": [
+        "enabled",
+        "persistence",
+        "image",
+        "resources",
+        "ingress"
+      ],
       "additionalProperties": false,
       "properties": {
-        "enabled": {"$ref": "#/definitions/isEnabled"},
-        "image": {"$ref": "#/definitions/dockerImage"},
+        "enabled": {
+          "$ref": "#/definitions/isEnabled"
+        },
+        "image": {
+          "$ref": "#/definitions/dockerImage"
+        },
         "extraEnv": {
-          "type": "array", "default": [],
-          "items": {"$ref": "#/definitions/keyValue"}
+          "type": "array",
+          "default": [],
+          "items": {
+            "$ref": "#/definitions/keyValue"
+          }
         },
-        "resources": {"$ref": "#/definitions/podResources"},
-        "nodeSelector": {"type": "object", "title": "pod node selector"},
-        "affinity": {"type": "object", "title": "pod affinity"},
+        "resources": {
+          "$ref": "#/definitions/podResources"
+        },
+        "nodeSelector": {
+          "type": "object",
+          "title": "pod node selector"
+        },
+        "affinity": {
+          "type": "object",
+          "title": "pod affinity"
+        },
         "tolerations": {
-          "type": "array", "default": [],
-          "items": {"type": "object", "title": "pod tolerations"}
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "object",
+            "title": "pod tolerations"
+          }
         },
-        "kafka": {"$ref": "#/definitions/persistence/kafka"},
-        "sql": {"$ref": "#/definitions/persistence/sql"},
-        "persistence": {"$ref": "#/definitions/persistence/choice"},
-        "service": {"$ref": "#/definitions/service"},
-        "ingress": {"$ref": "#/definitions/ingress"}
+        "kafka": {
+          "$ref": "#/definitions/persistence/kafka"
+        },
+        "sql": {
+          "$ref": "#/definitions/persistence/sql"
+        },
+        "persistence": {
+          "$ref": "#/definitions/persistence/choice"
+        },
+        "service": {
+          "$ref": "#/definitions/service"
+        },
+        "ingress": {
+          "$ref": "#/definitions/ingress"
+        }
       }
     },
     "sync": {
-      "type": "object", "title": "registry content sync settings",
-      "required": ["enabled", "image", "resources"],
+      "type": "object",
+      "title": "registry content sync settings",
+      "required": [
+        "enabled",
+        "image",
+        "resources"
+      ],
       "properties": {
-        "enabled": {"$ref": "#/definitions/isEnabled"},
-        "image": {"$ref": "#/definitions/dockerImage"},
-        "resources": {"$ref": "#/definitions/podResources"},
-        "registryUrl": {"type": ["null", "string"], "default": null}
+        "enabled": {
+          "$ref": "#/definitions/isEnabled"
+        },
+        "image": {
+          "$ref": "#/definitions/dockerImage"
+        },
+        "resources": {
+          "$ref": "#/definitions/podResources"
+        },
+        "registryUrl": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "default": null
+        }
       }
     }
   }

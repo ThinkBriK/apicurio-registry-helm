@@ -55,7 +55,8 @@ registry:
     host: "apicurio.local"
     path: "/"
     pathType: "ImplementationSpecific"
-    tls: false
+    tls:
+      enabled: false
     annotations: {}
     labels: {}
 
